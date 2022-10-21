@@ -75,13 +75,12 @@
 
     <script>
 
-
         // TODO Vue app     
         let app = Vue.createApp({
             data () {
                 return {
-                    newStudentName: "",
-                    newStarID: "",
+                    newStudentName: '',
+                    newStarID: '',
                     students: [
                        { name: 'A. Student', starID: 'aa1234bb', present: false },
                        { name: 'B. Student', starID: 'cc1234dd', present: false },
@@ -91,26 +90,37 @@
                 mostRecentStudent: {} //most recent arrival or departure
                 }
             },
-            methods () {
+            methods: {
                 addStudent() {
-                    this.errors = []
+                    this.errors = [] // reset errors to empty
                     
                     if (!this.newStudentName) {this.errors.push('Student name must be entered.')}
                     if (!this.newStarID) {this.errors.push('StarID must be entered.')}
+                    // log error if either or both inputs missing
 
-                    //if (this.newStudentName && this.newStarID) {
-                    if (this.errors.length ==0) {    
-                        let student = { name: this.newStudentName, starID: this.newStarID, present: false}
+                    // if no errors, add the data to the students object and then sort
+                    if (this.errors.length == 0) {    
+                        let student = { name: this.newStudentName, starID: this.newStarID, present: false }
                         this.students.push(student)
-                        this.newStudentName = ""
-                        this.newStarID = "" } // end if
-                }, //end addStudent
+                        this.newStudentName = '' // reset input form
+                        this.newStarID = '' 
 
-                arrivedOrLeft(student) {
-                    this.mostRecentStudent = student
-                } // end arrivedOrLeft
+                    // sort students
+                    this.students.sort(function (student1, student2) {
+                        // return +1 if student1 belongs after student2 in sort order, -1 if the reverse, and 0 if they are the same
+                        if (student1.name.toUpperCase() > student2.name.toUpperCase() ) { return 1}
+                        if (student1.name.toUpperCase() < student2.name.toUpperCase() ) { return -1}
+                        return 0              
+                    }) // end sort
+                    } // end if no errors
+            }, // end addStudent
+
+                arrivedOrLeft(student) { this.mostRecentStudent = student } // end arrivedOrLeft
+
             } //end methods
+
         }) //end createApp
+
         app.mount('#app')
     </script>
 
