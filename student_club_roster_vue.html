@@ -6,7 +6,9 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
   <style>
-
+    h1 {
+      color: darkblue;
+    }
     .selected {
       text-decoration: line-through ;
       font-style: italic;
@@ -76,10 +78,10 @@
     You may modify this HTML. You may need a new computed property or
     you can edit the one that already exists. -->
 
-    <span id="student-count">
+  <span id="student-count">
           <p v-if="studentCount==1">There is 1 student in the club.</p>
           <p v-if="studentCount==0 || studentCount >1">There are {{ studentCount }} students in the club.</p>
-            <!-- TODO display student count -->
+    <!-- TODO display student count -->
         </span>
 
   <ul id="student-list">
@@ -144,8 +146,8 @@
         newID: '',
         newGPA: '',
         students: [
-        //  {name: 'A. Example', id: '123456', gpa: 3.5, selected: false},
-        //  {name: 'B. Example', id: '876543', gpa: 3.7, selected: false},
+          //  {name: 'A. Example', id: '123456', gpa: 3.5, selected: false},
+          //  {name: 'B. Example', id: '876543', gpa: 3.7, selected: false},
         ],
         error: ''  // store an error message for the form, if there is one
       }
@@ -192,15 +194,17 @@
         }
         //  add student to student list
         // TODO EXTRA CREDIT DONT ADD STUDENTS WITH THE SAME ID AS SOMEONE ALREADY IN THE LIST
-        // there is a problem in the code for adding students, somewhere.  not seeing the alert.
         let match = false
         // console.log("I'm here")
-        console.log(newStudent.id, this.students.id)
+        // console.log(newStudent.id, this.students.id)
         // this.students.id returns undefined
-        for (s in this.students)
-            {if (s.id == newStudent.id)
-            {match = true
-              alert("That student is already in the list.")}   }
+        this.students.forEach( s => {
+        // for (s in this.students) { i think this was the bug, python-like syntax
+          // yes, that was preventing this whole section from running...
+
+            if (s.id == newStudent.id) //newStudent.id is reading correctly
+                {match = true
+                alert("That student is already in the list.")}   } ) // end if & end for loop
         if (!match) {this.students.push(newStudent)}
 
         this.newName = ''
