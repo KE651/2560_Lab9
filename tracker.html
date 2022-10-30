@@ -211,6 +211,14 @@
                     } // end record
                     this.activityRecords.push(record)
 
+                    // clear form after pushing record
+                    this.date=""
+                    this.hours=""
+                    this.type=""
+                    this.medium=""
+                    this.completed=""
+                    this.note=""
+
                     this.activityRecords.sort(function(r1, r2) {
                         // negative result: r1 before r2; positive result: r1 after r2
                         return r2.date.getTime() - r1.date.getTime()
