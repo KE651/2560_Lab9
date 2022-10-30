@@ -1,0 +1,35 @@
+table {
+    width: 100%;
+    border: 1px solid black;
+    font-family: "Arial Black";
+}
+
+}
+th.hours {
+    width: 10%;
+    font-size: medium;
+
+}
+th.small {
+    width: 15%;
+    font-size:medium;
+}
+th.note {
+    width:35%;
+    font-size:medium;
+}
+
+tr.Sketching {
+    background-color: lightsalmon;
+}
+tr.Drawing {
+    background-color: cornsilk;
+}
+tr.Painting {
+    background-color: azure;
+}
+
+#records {
+    max-height: 300px;
+    overflow: scroll;
+}

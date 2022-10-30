@@ -4,132 +4,149 @@
 <head>
     <title>Practice Tracker</title>
     <script src="https://unpkg.com/vue@next"></script>
-    
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="styles_tracker.css" type="text/css">
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="tracker_styles.css" type="text/css">
 </head>
 
 <body>
-    <div id="app">
+<div id="app">
 
-        <!-- TODO display the name of the activity -->
-        <h1 class="text-center">{{ activity }}! Time Tracker</h1>
+    <!-- TODO display the name of the activity -->
+    <h1 class="text-center">{{ activity }}! Time Tracker</h1>
 
-        <div id="add-hours" class="card">
+    <div id="add-hours" class="card">
 
-            <h2 class="card-header">Add Records</h2>
-            <div class="card-body">
-               
-                <!-- TODO use v-if to show this if there are validation errors -->
-                <div class="alert alert-danger">
-                    <!-- TODO show a list of validation errors from form -->
-                    <ul>
-                        <li v-for="error in errors">{{ error }}</li>
-                    </ul>
-                </div>
+        <h2 class="card-header">Add Records</h2>
+        <div class="card-body">
 
-                <div class="form-group">
-                    <!-- TODO display name of activity in the label -->
-                    <label class="form-label" for="date">What date did you do this activity?</label>
-                    <!-- TODO use v-model to connect this input to dateString data -->
-                    <input id="date" class="form-control" type="date" v-model="dateString">
-                    <small id="date-help" class="form-text text-muted">
-                        Date must be today or in the past.
-                    </small>
-                </div>
+            <!-- TODO use v-if to show this if there are validation errors -->
+            <div class="alert alert-danger">
+                <!-- TODO show a list of validation errors from form -->
+                <ul>
+                    <li v-for="error in errors">{{ error }}</li>
+                </ul>
+            </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="hours">For how many hours did you practice?</label>
-                    <!-- TODO use v-model to connect this input to hours data -->
-                    <input id="hours" class="form-control" type="number" min="0" max="24" v-model.number="hours">
-                    <!-- number modifier ensurea data is a number - Vue removes nonnumeric chars-->
-                    <small id="hours-help" class="form-text text-muted">
-                        Enter a number of hours, more than 0, up to a maximum of 24
-                    </small>
-                </div>
+            <div class="form-group">
+                <!-- TODO display name of activity in the label -->
+                <label class="form-label" for="date">What date did you do this activity?</label>
+                <!-- TODO use v-model to connect this input to dateString data -->
+                <input id="date" class="form-control" type="date" v-model="dateString">
+                <small id="date-help" class="form-text text-muted">
+                    Date must be today or in the past.
+                </small>
+            </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="type">What type?</label>
-                    <!-- TODO Create select element, use v-model to connect to the types -->
-                    <!-- TODO Use v-for to create option elements, one for each type -->
-                    <select class="form-control" v-model="type">
-                      <!-- connect selected value to type data-->
-                        <option v-for="type in types">{{ type }}</option>
-                    </select>
-                </div>
+            <div class="form-group">
+                <label class="form-label" for="hours">For how many hours did you practice?</label>
+                <!-- TODO use v-model to connect this input to hours data -->
+                <input id="hours" class="form-control" type="number" min="0" max="24" size="10" v-model.number="hours">
+                <!-- number modifier ensures data is a number - Vue removes nonnumeric chars-->
+                <small id="hours-help" class="form-text text-muted">
+                    Enter a number of hours, more than 0, up to a maximum of 24
+                </small>
+            </div>
 
-                <div class="form-label pb-2">
-                    What media?
-                </div>
 
-                <div class="form-check-inline">
-                    <!-- TODO v-model media -->
-                    <input id="media1" class="form-check-input" type="radio" value="Traditional" v-model="medium">
-                    <label class="form-check-label" for="media1">Traditional</label>
-                </div>
+            <div class="form-group">
+                <label class="form-label" >What type?</label>
+                <!-- TODO Create select element, use v-model to connect to the types -->
+                <!-- TODO Use v-for to create option elements, one for each type -->
+                <select class="form-control" v-model="type">
+                    <!-- connect selected value to type data-->
+                    <option v-for="type in types">{{ type }}</option>
+                </select>
+            </div>
 
-                <div class="form-check-inline">
-                    <!-- TODO v-model media -->
-                    <input id="media2" class="form-check-input" type="radio" value="Digital" v-model="medium">
-                    <label class="form-check-label" for="media2">Digital</label>
-                </div>
+            <div class="completed-checkbox">
+                <input type="checkbox" id="completed" value="completed" v-model="completed">
+                <label for="completed">&nbsp&nbspProject Completed?</label><br>
+            </div>
 
-                <div>
-                    <!-- TODO Add v-on:click -->
-                    <button class="btn btn-primary mt-2" type="button" v-on:click="submit">Add record</button>
-                </div>
-                
+            <div class="form-label pb-2">
+                What medium?
+            </div>
+
+            <div class="form-check-inline">
+                <!-- TODO v-model media -->
+                <input id="media1" class="form-check-input" type="radio" value="Traditional" v-model="medium">
+                <label class="form-check-label" for="media1">Traditional</label>
+            </div>
+
+            <div class="form-check-inline">
+                <!-- TODO v-model media -->
+                <input id="media2" class="form-check-input" type="radio" value="Digital" v-model="medium">
+                <label class="form-check-label" for="media2">Digital</label>
+            </div>
+<br><br>
+            <div class="form-group">
+                <!-- Input notes about activity -->
+                <label class="form-label" for="note">Notes about the activity?</label>
+                <input id="note" class="form-control" type="note" v-model="note">
+            </div>
+
+            <div>
+                <!-- TODO Add v-on:click -->
+                <button class="btn btn-primary mt-2" type="button" v-on:click="submit">Add record</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="card-header">Activity Records</h2>
+
+        <div class="card-body">
+
+            <h3>{{ totalRecordsMessage }}</h3>
+
+            <div id="records">
+                <table class="table table-hover">
+                    <tr>
+                        <th class="small">Date</th>
+                        <th class="hours">Hours</th>
+                        <th class="small">Type</th>
+                        <th class="small">Media</th>
+                        <th class="hours">Completed</th>
+                        <th class="note">Note</th>
+                    </tr>
+                    <!-- TODO use v-for to create one table row for each activity record -->
+                    <tr v-for="record in activityRecords" v-bind:class="record.type">
+                        <td>{{ shortDate(record.date) }}</td>
+                        <td>{{ record.hours }}</td>
+                        <td>{{ record.type }}</td>
+                        <td>{{ record.medium }}</td>
+                        <td>{{ completedStatus(record.completed) }}</td>
+                        <td>{{ noteFormat(record.note) }}</td>
+                    </tr>
+                </table>
             </div>
         </div>
-
-        <div class="card">
-            <h2 class="card-header">Activity Records</h2>
-
-            <div class="card-body">
-
-                <h3>{{ totalRecordsMessage }}</h3>
-
-                <div id="records">
-                    <table class="table table-hover">
-                        <tr>
-                            <th>Date</th>
-                            <th>How many hours?</th>
-                            <th>Type</th>
-                            <th>Media</th>
-                        </tr>
-                        <!-- TODO use v-for to create one table row for each activity record -->
-                        <tr v-for="record in activityRecords">
-                            <td>{{ shortDate(record.date) }}</td>
-                            <td>{{ record.hours }}</td>
-                            <td>{{ record.type }}</td>
-                            <td>{{ record.medium }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="card">
-            <h2 class="card-header">Summary</h2>
-
-            <div class="card-body">
-
-                <!-- TODO add computed property to calculate the total hours -->
-                <p>You have practiced a total of {{ totalHours }} hours.</p>
-
-                <!-- Challenge question! Display a list of the total hours for each type.  -->
-          
-            </div>
-        </div>
-
     </div>
 
 
+    <div class="card">
+        <h2 class="card-header">Summary</h2>
+
+        <div class="card-body">
+
+            <!-- TODO add computed property to calculate the total hours -->
+            <p>You have practiced a total of {{ totalHours }}.</p>
+
+            <!-- Challenge question! Display a list of the total hours for each type.  -->
+
+        </div>
+    </div>
+
+</div>
 
 
-    <script>
+
+
+<script>
 
     //   TODO create new Vue app here
     let app=Vue.createApp({
@@ -142,8 +159,10 @@
                 type: 'sketching',
                 medium: 'Traditional',
                 types: ['Sketching', 'Drawing', 'Painting'],
+                note:'',
+                completed:"",
                 // for the select-option in form
-                errors: [] 
+                errors: []
             }
         }, // end data
         methods: {
@@ -157,9 +176,13 @@
                 // https://stackoverflow.com/questions/948532/how-to-convert-a-date-to-utc
                 // console.log("Submitted date: "+date) // Fri Sep 30 2022 19:00:00 GMT-0500 (Central Daylight Time)
                 // it was always converting to CST here and subtracting 5 hours changed the date. Added code to keep in UTC.
-            
+
 
                 // validate date
+                // console.log(this.dateString, this.dateString.getFullYear())
+                //if (this.dateString.getFullYear() < 2011) //FINISH THIS STATEMENT TO CHECK WITHIN LAST 10 YEARS
+                //{ this.errors.push('Select a date within the past 10 years.')}
+
                 if (!this.dateString || this.dateString == 'Invalid Date' || date>new Date() ) {
                     this.errors.push('Select a valid date, today or in the past.')
                 }
@@ -181,8 +204,10 @@
                     let record={
                         date: date,
                         hours: this.hours,
-                        type: this.type, 
-                        medium: this.medium
+                        type: this.type,
+                        medium: this.medium,
+                        completed: this.completed,
+                        note: this.note
                     } // end record
                     this.activityRecords.push(record)
 
@@ -192,7 +217,7 @@
                         //newest record first
                     }) // end sort
 
-                } // end if 
+                } // end if
             }, // end submit
 
             shortDate(date) {
@@ -200,7 +225,20 @@
                 let formattedDate = new Intl.DateTimeFormat('en-US', {timezone:'UTC'}).format(date)
                 // console.log(formattedDate)
                 return formattedDate
-            } // end shortDate
+            }, // end shortDate
+
+            noteFormat(note) {
+                let formattedNote = note.slice(0,39)
+                // console.log(formattedNote)
+                return formattedNote
+            }, // end noteFormat
+
+            completedStatus(completed) {
+                let done = "Yes"
+                //console.log(done)
+                if (!completed) {done = "No"}
+                return done
+            }
         },   // end methods
 
         computed: {
@@ -209,20 +247,29 @@
                 if (numberOfRecords===1) {return '1 record'}
                 else {return numberOfRecords + ' records'}
             },  // end totalRecordsMessage
-   
+
             totalHours() {
                 let total = 0
                 this.activityRecords.forEach ( record => {
                     total = total + record.hours
                 }) // end forEach
-                return total
-            } // end totalHours
+                let word = " hours"
+                if (total == 1) {
+                    word = " hour"
+                    //console.log("if reached")
+                }
+
+                let totalPhrase = total + word
+                // console.log(totalPhrase)
+                return totalPhrase
+            }, // end totalHours
+
         }// end computed
     }) // end createApp
 
     app.mount('#app')
 
-    </script>
+</script>
 
 </body>
 
